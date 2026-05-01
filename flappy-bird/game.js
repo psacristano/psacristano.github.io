@@ -1,21 +1,21 @@
 const canvas = document.getElementById("gameCanvas"); 
 const ctx = canvas.getContext("2d");
 
-// Risoluzione interna fissa
+// Fixed internal resolution
 const aspectRatio = 3 / 4;
 canvas.height = window.innerHeight;
 canvas.width = window.innerHeight * aspectRatio;
 
-// Fisica a tempo costante (120 FPS target)
+// Constant time physics (120 FPS target)
 const TARGET_FPS = 120;
 const TARGET_DT = 1 / TARGET_FPS;
 
-// Velocità base (a 120 FPS)
+// Base speeds (at 120 FPS)
 const BASE_GRAVITY = 0.15;
 const BASE_JUMP = -5;
 const BASE_PIPE_SPEED = 2;
 
-// Calcola moltiplicatore basato sul delta time
+// Calculate delta time based multiplier
 let lastTime = 0;
 function getTimeMultiplier(dt) {
     return dt / TARGET_DT;
@@ -25,25 +25,44 @@ let birdX = 50; let birdY = 150; let birdVelocity = 0;
 
 let pipes = []; let pipeWidth = 60; let pipeGap = 150;
 
+// Background clouds
+let clouds = [];
+const cloudSpeed = 0.5;
+
+function spawnCloud() {
+    const cloudWidth = 80 + Math.random() * 60;
+    const cloudHeight = 30 + Math.random() * 20;
+    const yPos = Math.random() * (canvas.height * 0.6) + 20;
+    clouds.push({
+        x: canvas.width + Math.random() * 200,
+        y: yPos,
+        width: cloudWidth,
+        height: cloudHeight,
+        speed: cloudSpeed * (0.5 + Math.random() * 0.5)
+    });
+}
+
+setInterval(spawnCloud, 3000);
+
 let score = 0; let gameOver = false;
 
 const getScale = () => 1;
 
-// Input da tastiera
+// Keyboard input
 document.addEventListener("keydown", (e) => { 
     e.preventDefault();
     if (!gameOver) birdVelocity = BASE_JUMP; 
     else restartGame(); 
 });
 
-// Input da mouse
+// Mouse input
 document.addEventListener("mousedown", (e) => { 
     e.preventDefault();
     if (!gameOver) birdVelocity = BASE_JUMP; 
     else restartGame(); 
 });
 
-// Input da touch - supporto mobile
+// Touch input - mobile support
 document.addEventListener("touchstart", (e) => {
     e.preventDefault();
     if (!gameOver) birdVelocity = BASE_JUMP;
@@ -64,20 +83,40 @@ setInterval(spawnPipe, 2000);
 function update(currentTime) {
     if (gameOver) return;
 
-    // Calcola delta time e moltiplicatore
+    // Calculate delta time and multiplier
     const dt = lastTime ? (currentTime - lastTime) / 1000 : TARGET_DT;
     lastTime = currentTime;
-    const timeScale = Math.min(getTimeMultiplier(dt), 2); // cap a 2x per evitare salti
+    const timeScale = Math.min(getTimeMultiplier(dt), 2); // cap at 2x to avoid jumps
 
     const scale = getScale();
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Applica fisica con timeScale
+    // Draw background clouds
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    clouds.forEach(cloud => {
+        cloud.x -= cloud.speed * timeScale;
+        // Cloud shape (made of overlapping circles)
+        const cx = cloud.x;
+        const cy = cloud.y;
+        const w = cloud.width;
+        const h = cloud.height;
+        
+        ctx.beginPath();
+        ctx.arc(cx + w*0.25, cy + h*0.5, h*0.45, 0, Math.PI * 2);
+        ctx.arc(cx + w*0.5, cy + h*0.25, h*0.55, 0, Math.PI * 2);
+        ctx.arc(cx + w*0.75, cy + h*0.5, h*0.45, 0, Math.PI * 2);
+        ctx.arc(cx + w*0.5, cy + h*0.65, h*0.4, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    // Remove off-screen clouds
+    clouds = clouds.filter(c => c.x + c.width > -50);
+
+    // Apply physics with timeScale
     birdVelocity += BASE_GRAVITY * timeScale;
     birdY += birdVelocity * timeScale;
 
-    // Uccello ridimensionato
+    // Scaled bird
     const birdSize = 30 * scale;
     ctx.fillStyle = "yellow";
     ctx.fillRect(birdX * scale, birdY, birdSize, birdSize);
@@ -124,7 +163,7 @@ function endGame() {
 function restartGame() {
     birdY = 150;
     birdVelocity = 0;
-    pipes = []; score = 0;
+    pipes = []; clouds = []; score = 0;
     gameOver = false;
     lastTime = 0;
     requestAnimationFrame(update);
