@@ -2,38 +2,65 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ora X</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ora X – 5 Round</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Ora X</h1>
+<div class="app-shell">
+    <header class="app-header">
+        <h1>Ora X</h1>
+        <p class="subtitle">Indovina l'orario in 5 round, guidato dagli indizi.</p>
+    </header>
 
-    <div id="gameBox">
-        <canvas id="gameCanvas" width="360" height="520"></canvas>
+    <main class="card">
 
-        <div id="controls">
-            <div class="select-row">
-                <div>
-                    <label for="hour">Ora</label>
-                    <select id="hour"></select>
-                </div>
+        <section class="round-panel">
+            <span id="roundLabel" class="round-label">Round 1 di 5</span>
+        </section>
 
-                <div>
-                    <label for="minute">Minuti</label>
-                    <select id="minute"></select>
-                </div>
+        <section class="info-panel">
+            <p id="clue" class="clue">
+                Preparati: tra poco ti verrà mostrato un indizio.
+            </p>
+        </section>
+
+        <section class="clock-panel">
+            <div class="clock-wrapper">
+                <canvas id="clockCanvas" width="360" height="360"></canvas>
             </div>
+            <p class="current-time-label">
+                Ora selezionata: <span id="currentTime">12:00</span>
+            </p>
+        </section>
 
-            <button id="tryButton">Tenta</button>
-            <button id="restartButton">Rigioca</button>
-            <button id="copyButton">Copia risultato</button>
-        </div>
+        <section class="controls-panel">
+            <button id="confirmButton" class="btn primary">Conferma orario</button>
+            <button id="nextButton" class="btn ghost" disabled>Round successivo</button>
+        </section>
 
-        <p id="message">Indovina l'ora nascosta. Hai 3 tentativi.</p>
-    </div>
+        <section class="message-panel">
+            <p id="message" class="message">
+                Trascina le lancette per scegliere un orario e premi “Conferma orario”.
+            </p>
+        </section>
 
-    <script src="script.js"></script>
+        <section id="scoresPanel" class="scores-panel hidden">
+            <h2>Risultati finali</h2>
+            <ul id="scoresList"></ul>
+            <p id="averageScore" class="average-score"></p>
+            <button id="restartGame" class="btn primary restart-btn">Ricomincia partita</button>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <small>Ora X – gioco a round con punteggio da 1 a 10.</small>
+    </footer>
+</div>
+
+<script src="script.js" defer></script>
 </body>
 </html>

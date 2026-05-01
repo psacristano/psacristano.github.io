@@ -1,101 +1,235 @@
-* {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+:root {
+    --bg: #020617;
+    --bg-card: #020617;
+    --bg-card-soft: #020617;
+    --accent: #38bdf8;
+    --accent-soft: rgba(56, 189, 248, 0.18);
+    --accent-strong: #f97316;
+    --text-main: #e5e7eb;
+    --text-muted: #9ca3af;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+    --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.35);
+    --transition-fast: 0.18s ease-out;
+    --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+html, body {
+    height: 100%;
 }
 
 body {
-    background: #10131d;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    padding: 20px;
-}
-
-h1 {
-    margin-bottom: 15px;
-    font-size: 42px;
-    letter-spacing: 2px;
-    color: #f5c84b;
-}
-
-#gameBox {
-    max-width: 390px;
-    margin: auto;
-}
-
-canvas {
-    width: 100%;
-    max-width: 360px;
-    height: auto;
-    background: #171b29;
-    border: 3px solid #f5c84b;
-    border-radius: 15px;
-    display: block;
-    margin: auto;
-}
-
-#controls {
-    margin-top: 15px;
-}
-
-.select-row {
+    font-family: var(--font-main);
+    background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    align-items: stretch;
+    padding: 12px;
 }
 
-label {
-    display: block;
-    font-size: 13px;
-    color: #c7cada;
-    margin-bottom: 5px;
-}
-
-select {
-    width: 95px;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-size: 18px;
-    text-align: center;
-    background: #252b3d;
-    color: white;
-}
-
-button {
+.app-shell {
     width: 100%;
-    max-width: 300px;
-    padding: 13px;
-    margin: 5px auto;
-    display: block;
-    border: none;
-    border-radius: 10px;
-    background: #f5c84b;
-    color: #111;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
+    max-width: 480px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100vh;
 }
 
-button:hover {
-    background: #ffe08a;
+.app-header {
+    text-align: center;
+    padding-top: 8px;
 }
 
-#restartButton {
-    background: #2f354a;
-    color: white;
+.app-header h1 {
+    font-size: clamp(28px, 7vw, 36px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f9fafb;
 }
 
-#copyButton {
-    background: #22283a;
-    color: white;
+.subtitle {
+    margin-top: 4px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
 }
 
-#message {
-    margin-top: 15px;
-    color: #d8d9e4;
-    font-size: 16px;
+.card {
+    background: linear-gradient(145deg, var(--bg-card), var(--bg-card-soft));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 14px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.round-panel {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.round-label {
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid #1f2937;
+    color: var(--accent);
+}
+
+.info-panel {
+    background: radial-gradient(circle at top left, var(--accent-soft), transparent 60%);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+}
+
+.clue {
+    font-size: 0.95rem;
     line-height: 1.4;
+}
+
+.clock-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.clock-wrapper {
+    width: min(100%, 360px);
+    aspect-ratio: 1 / 1;
+    border-radius: 999px;
+    padding: 10px;
+    background: radial-gradient(circle at 30% 0, #1f2937, #020617);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+}
+
+#clockCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 0, #020617, #020617 40%, #020617 100%);
+    touch-action: none;
+}
+
+.current-time-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+#currentTime {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.controls-panel {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 8px;
+}
+
+.btn {
+    border-radius: var(--radius-md);
+    border: none;
+    padding: 10px 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, var(--accent), #0ea5e9);
+    color: #020617;
+    box-shadow: var(--shadow-glow);
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid #374151;
+    color: var(--text-main);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.message-panel {
+    background: #020617;
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    border: 1px solid #111827;
+}
+
+.message {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.scores-panel {
+    background: #020617;
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    border: 1px solid #1f2937;
+}
+
+.scores-panel h2 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+#scoresList {
+    list-style: none;
+    margin-bottom: 6px;
+}
+
+#scoresList li {
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.average-score {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.hidden {
+    display: none;
+}
+
+.restart-btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.app-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding-bottom: 6px;
+}
+
+@media (max-width: 400px) {
+    .controls-panel {
+        grid-template-columns: 1fr;
+    }
 }
