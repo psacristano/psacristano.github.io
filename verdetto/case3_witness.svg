@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+<rect width="640" height="420" rx="28" fill="#fff5dc"/>
+<rect x="40" y="40" width="560" height="340" rx="22" fill="#fffdf8" stroke="#1d1b18" stroke-width="6"/>
+<text x="320" y="80" text-anchor="middle" font-size="28" font-family="Arial" font-weight="900" fill="#244e8e">TESTIMONE INDIPENDENTE</text>
+<circle cx="160" cy="200" r="70" fill="#f2c79d" stroke="#1d1b18" stroke-width="6"/>
+<path d="M104 188c3-50 113-59 114 0" fill="#754c28"/>
+<circle cx="140" cy="206" r="7" fill="#1d1b18"/><circle cx="184" cy="206" r="7" fill="#1d1b18"/>
+<path d="M143 240c14 10 29 10 44 0" fill="none" stroke="#1d1b18" stroke-width="6"/>
+<path d="M105 269c21-17 42-22 56-22 15 0 35 7 58 22v60H105z" fill="#4db172" stroke="#1d1b18" stroke-width="6"/>
+<text x="270" y="145" font-size="18" font-family="Arial" font-weight="700" fill="#1d1b18">Dichiarazione</text>
+<text x="270" y="180" font-size="18" font-family="Arial" fill="#1d1b18">"Ho visto Simone spingere Matteo</text>
+<text x="270" y="206" font-size="18" font-family="Arial" fill="#1d1b18">contro un'auto e poi colpirlo una</text>
+<text x="270" y="232" font-size="18" font-family="Arial" fill="#1d1b18">volta al volto. Matteo urlava ma</text>
+<text x="270" y="258" font-size="18" font-family="Arial" fill="#1d1b18">non stava colpendo in quel momento."</text>
+</svg>

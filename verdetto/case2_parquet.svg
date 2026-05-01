@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+<rect width="640" height="420" rx="28" fill="#ead2a8"/>
+<rect x="30" y="30" width="580" height="360" rx="22" fill="#bc8a52" stroke="#5c3a21" stroke-width="8"/>
+<g stroke="#8f6339" stroke-width="4">
+<line x1="90" y1="30" x2="90" y2="390"/><line x1="150" y1="30" x2="150" y2="390"/><line x1="210" y1="30" x2="210" y2="390"/>
+<line x1="270" y1="30" x2="270" y2="390"/><line x1="330" y1="30" x2="330" y2="390"/><line x1="390" y1="30" x2="390" y2="390"/>
+<line x1="450" y1="30" x2="450" y2="390"/><line x1="510" y1="30" x2="510" y2="390"/>
+</g>
+<path d="M145 190c80-18 115-28 170-10 52 15 105 18 182-12" fill="none" stroke="#d73935" stroke-width="16" stroke-linecap="round"/>
+<path d="M124 216c86-20 148-16 214 8 48 18 90 12 183-16" fill="none" stroke="#fff3dd" stroke-width="6" opacity="0.7"/>
+<rect x="30" y="30" width="580" height="360" rx="22" fill="none" stroke="#1d1b18" stroke-width="8"/>
+<text x="45" y="380" font-size="24" font-family="Arial" font-weight="900" fill="#fff8ef">Rigatura evidente sul parquet</text>
+</svg>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdetto! - Gioco di Processo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-dots"></div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="logo-ribbon">
+          <span class="logo-word">VERDETTO!</span>
+          <small>GIUDICA TU</small>
+        </div>
+        <p class="brand-subtitle">Un processo pop, colorato e scenico, dove decidi tu il finale.</p>
+      </div>
+
+      <div class="top-cards">
+        <div class="mini-card">
+          <span>Stile</span>
+          <strong>toy-box / fumetto</strong>
+        </div>
+        <div class="mini-card">
+          <span>Modalità</span>
+          <strong>3 casi demo</strong>
+        </div>
+      </div>
+    </header>
+
+    <section id="startScreen" class="screen active">
+      <div class="hero-layout">
+        <div class="hero-card">
+          <span class="pill">Original board-game identity</span>
+          <h1>Entra in aula con stile.</h1>
+          <p>
+            Leggi il dossier, apri foto, documenti e video, osserva il profilo delle parti
+            e costruisci una sentenza completa. Nei casi penali potrai decidere anche i mesi
+            di carcere; nei civili, l'importo preciso da restituire o trattenere.
+          </p>
+
+          <div class="feature-grid">
+            <article><strong>Brand identity originale</strong><span>Grafica fumettesca, colorata, scenica e memorabile.</span></article>
+            <article><strong>Media realizzati nel gioco</strong><span>Foto del caso, documenti, chat e clip video consultabili.</span></article>
+            <article><strong>Sentenza avanzata</strong><span>Verdetto + importi + mesi di pena, in base al procedimento.</span></article>
+            <article><strong>Punteggio analitico</strong><span>Valuta prove, logica, dosimetria della sentenza e motivazione.</span></article>
+          </div>
+
+          <div class="hero-actions">
+            <button id="startBtn" class="btn btn-primary">Inizia il processo</button>
+          </div>
+        </div>
+
+        <div class="mascot-panel">
+          <img src="judge_mascot.svg" alt="Mascotte del gioco" />
+          <div class="speech-bubble">
+            <strong>Consiglio del Giudice Pop:</strong>
+            non basta capire chi ha ragione. Devi anche scegliere una decisione proporzionata.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <div class="header-strip">
+        <div class="case-badge">
+          <span id="caseNumber">Caso #001</span>
+          <small id="caseType">Penale</small>
+        </div>
+        <div class="attention-box">
+          <span>Attenzione residua</span>
+          <strong id="attentionValue">0</strong>
+          <div class="attention-bar"><span id="attentionFill"></span></div>
+        </div>
+        <div class="attention-box">
+          <span>Media aperti</span>
+          <strong id="openedCount">0</strong>
+          <div class="attention-bar secondary"><span id="openedFill"></span></div>
+        </div>
+      </div>
+
+      <nav class="progress-tabs">
+        <button class="tab active" data-step="0">Dossier</button>
+        <button class="tab" data-step="1">Accusa</button>
+        <button class="tab" data-step="2">Difesa</button>
+        <button class="tab" data-step="3">Prove</button>
+        <button class="tab" data-step="4">Sentenza</button>
+      </nav>
+
+      <div class="play-grid">
+        <aside class="side-panel">
+          <div class="character-card">
+            <div class="card-label">Caso in aula</div>
+            <h2 id="caseTitle"></h2>
+            <p id="caseSubtitle"></p>
+          </div>
+
+          <div class="judge-note">
+            <strong>Regola d'oro:</strong>
+            non aprire tutto a caso. Alcuni elementi sono decisivi, altri servono solo a distrarti.
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <article id="contentCard" class="content-card"></article>
+
+          <div class="nav-row">
+            <button id="prevBtn" class="btn btn-ghost">Indietro</button>
+            <button id="nextBtn" class="btn btn-primary">Avanti</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="result-layout">
+        <aside class="result-card">
+          <div class="score-banner">ESITO</div>
+          <h2 id="resultHeading"></h2>
+          <div class="score-ring" id="scoreRing">
+            <span id="scoreValue">0</span>
+            <small>/100</small>
+          </div>
+          <p id="scoreSummary"></p>
+
+          <div class="subscores">
+            <div><span>Prove</span><strong id="evidenceScore">0</strong></div>
+            <div><span>Logica giuridica</span><strong id="legalScore">0</strong></div>
+            <div><span>Dosimetria</span><strong id="sentenceScore">0</strong></div>
+            <div><span>Motivazione</span><strong id="motivationScore">0</strong></div>
+          </div>
+
+          <div class="judge-tag">
+            <span>Profilo</span>
+            <strong id="judgeProfile">—</strong>
+          </div>
+
+          <div class="result-buttons">
+            <button id="copyBtn" class="btn btn-primary">Copia risultato</button>
+            <button id="newCaseBtn" class="btn btn-ghost">Nuovo caso</button>
+            <button id="restartBtn" class="btn btn-ghost">Rigioca caso</button>
+          </div>
+        </aside>
+
+        <section class="analysis-card">
+          <h3>Motivazione della Corte</h3>
+          <p id="officialReasoning"></p>
+
+          <h3>La tua decisione</h3>
+          <div id="playerSummary"></div>
+
+          <h3>Analisi completa</h3>
+          <ul id="feedbackList"></ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="mediaModal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button id="closeModalBtn" class="modal-close">×</button>
+      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-copy">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="verdictOverlay" class="verdict-overlay" aria-hidden="true">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-panel">
+      <div class="stamp-ray"></div>
+      <div class="hammer-wrap"><div class="hammer"></div></div>
+      <div class="stamp" id="overlayStamp">✓</div>
+      <h2 id="overlayTitle">Sentenza emessa</h2>
+      <p id="overlayText">La Corte ha parlato.</p>
+      <div class="overlay-chip" id="overlayChip">—</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Versione demo. I casi sono simulati e semplificati a scopo ludico/educativo.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

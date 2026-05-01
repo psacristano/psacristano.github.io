@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+<rect width="640" height="420" rx="28" fill="#f3efe4"/>
+<rect x="25" y="25" width="590" height="370" rx="22" fill="#e4eef8" stroke="#1d1b18" stroke-width="6"/>
+<text x="320" y="68" text-anchor="middle" font-size="28" font-family="Arial" font-weight="900" fill="#d73935">PROFILO SOGGETTO</text>
+<circle cx="180" cy="200" r="80" fill="#ffd2af" stroke="#1d1b18" stroke-width="6"/>
+<path d="M105 188c10-62 152-69 153 0" fill="#392c21"/>
+<circle cx="153" cy="204" r="8" fill="#1d1b18"/><circle cx="205" cy="204" r="8" fill="#1d1b18"/>
+<path d="M158 244c22 12 38 12 60 0" fill="none" stroke="#1d1b18" stroke-width="6" stroke-linecap="round"/>
+<path d="M105 280c34-18 58-26 77-26 17 0 45 8 77 26v76H105z" fill="#244e8e" stroke="#1d1b18" stroke-width="6"/>
+<rect x="316" y="118" width="240" height="220" rx="18" fill="#fffdf8" stroke="#1d1b18" stroke-width="5"/>
+<text x="338" y="155" font-size="20" font-family="Arial" font-weight="700" fill="#1d1b18">Nome:</text>
+<text x="420" y="155" font-size="24" font-family="Arial" font-weight="900" fill="#1d1b18">DARIO M.</text>
+<text x="338" y="195" font-size="20" font-family="Arial" font-weight="700" fill="#1d1b18">Caso:</text>
+<text x="420" y="195" font-size="20" font-family="Arial" fill="#1d1b18">Finto bonifico</text>
+<text x="338" y="235" font-size="20" font-family="Arial" font-weight="700" fill="#1d1b18">Età:</text>
+<text x="420" y="235" font-size="20" font-family="Arial" fill="#1d1b18">28</text>
+<text x="338" y="275" font-size="20" font-family="Arial" font-weight="700" fill="#1d1b18">Nota:</text>
+<text x="338" y="304" font-size="16" font-family="Arial" fill="#1d1b18">Ha ritirato la console alle 18:42</text>
+<text x="338" y="329" font-size="16" font-family="Arial" fill="#1d1b18">mostrando una schermata di bonifico</text>
+<text x="338" y="354" font-size="16" font-family="Arial" fill="#1d1b18">istantaneo poi risultata anomala.</text>
+</svg>

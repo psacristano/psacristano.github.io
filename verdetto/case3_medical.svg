@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+<rect width="640" height="420" rx="28" fill="#f7f6f1"/>
+<rect x="120" y="26" width="400" height="370" rx="16" fill="#ffffff" stroke="#1d1b18" stroke-width="6"/>
+<text x="320" y="66" text-anchor="middle" font-size="26" font-family="Arial" font-weight="900" fill="#d73935">CERTIFICATO MEDICO</text>
+<text x="150" y="112" font-size="18" font-family="Arial" fill="#1d1b18">Paziente: Matteo S.</text>
+<text x="150" y="144" font-size="18" font-family="Arial" fill="#1d1b18">Diagnosi: contusione zigomo dx</text>
+<text x="150" y="176" font-size="18" font-family="Arial" fill="#1d1b18">e frattura composta setto nasale.</text>
+<text x="150" y="214" font-size="18" font-family="Arial" fill="#1d1b18">Prognosi: 18 giorni</text>
+<text x="150" y="246" font-size="18" font-family="Arial" fill="#1d1b18">Limitazione attività: moderata</text>
+<path d="M454 282c14 0 25 11 25 25s-11 25-25 25-25-11-25-25 11-25 25-25z" fill="#d73935"/>
+<text x="454" y="315" text-anchor="middle" font-size="24" font-family="Arial" font-weight="900" fill="#fff">!</text>
+<text x="150" y="336" font-size="14" font-family="Arial" fill="#666">Il referto evidenzia un trauma compatibile con un colpo diretto al volto.</text>
+</svg>
