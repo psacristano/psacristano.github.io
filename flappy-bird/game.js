@@ -7,26 +7,12 @@ const baseHeight = 600;
 
 // Imposta dimensioni canvas in base allo schermo
 function resizeCanvas() {
-    const isMobile = window.innerWidth < 768;
     const aspectRatio = baseWidth / baseHeight;
     
-    let newWidth = window.innerWidth;
-    let newHeight = window.innerHeight;
-    
-    // Su mobile usa tutto lo schermo
-    if (isMobile) {
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-    } else {
-        // Su PC mantieni proporzioni
-        if (newWidth / newHeight > aspectRatio) {
-            newHeight = newWidth / aspectRatio;
-        } else {
-            newWidth = newHeight * aspectRatio;
-        }
-        canvas.width = Math.min(newWidth, 400);
-        canvas.height = Math.min(newHeight, 600);
-    }
+    const newHeight = window.innerHeight;
+
+    canvas.height = newHeight;
+    canvas.width = newHeight * aspectRatio;
 }
 
 resizeCanvas();

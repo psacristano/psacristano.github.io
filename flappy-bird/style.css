@@ -1,7 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: #70c5ce;
+    background: #0993bd;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@ body {
 }
 
 #gameCanvas {
-    background: #4ec0ca;
+    background: #19b1df;
     border: 3px solid #000;
     max-width: 100%;
     max-height: 100%;
