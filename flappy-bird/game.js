@@ -67,9 +67,8 @@ document.addEventListener("touchmove", (e) => {
 }, { passive: false });
 
 function spawnPipe() { 
-    const scale = getScale();
-    let topHeight = Math.random() * (canvas.height - pipeGap * scale - 100 * scale) + 50 * scale; 
-    pipes.push({ x: canvas.width, top: topHeight, bottom: topHeight + pipeGap * scale }); 
+    let topHeight = Math.random() * (canvas.height - pipeGap - 100) + 50; 
+    pipes.push({ x: canvas.width, top: topHeight, bottom: topHeight + pipeGap }); 
 }
 
 setInterval(spawnPipe, 2000);
@@ -81,7 +80,7 @@ function update() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    birdVelocity += gravity * scale;
+    birdVelocity += gravity;
     birdY += birdVelocity;
 
     // Uccello ridimensionato
@@ -91,7 +90,7 @@ function update() {
 
     ctx.fillStyle = "green";
     pipes.forEach(pipe => {
-        pipe.x -= pipeSpeed * scale;
+        pipe.x -= pipeSpeed;
 
         ctx.fillRect(pipe.x, 0, pipeWidth * scale, pipe.top);
         ctx.fillRect(pipe.x, pipe.bottom, pipeWidth * scale, canvas.height - pipe.bottom);
@@ -102,7 +101,7 @@ function update() {
             endGame();
         }
 
-        if (pipe.x + pipeWidth * scale <= birdX * scale && pipe.x + pipeWidth * scale + pipeSpeed * scale > birdX * scale) {
+        if (pipe.x + pipeWidth * scale <= birdX * scale && pipe.x + pipeWidth * scale + pipeSpeed > birdX * scale) {
             score++;
         }
     });
@@ -110,8 +109,8 @@ function update() {
     if (birdY > canvas.height - birdSize || birdY < 0) endGame();
 
     ctx.fillStyle = "white";
-    ctx.font = (30 * scale) + "px Arial";
-    ctx.fillText(score, 10 * scale, 40 * scale);
+    ctx.font = "30px Arial";
+    ctx.fillText(score, 10, 40);
 
     requestAnimationFrame(update);
 
@@ -119,19 +118,17 @@ function update() {
 
 function endGame() {
     gameOver = true; 
-    const scale = getScale();
     ctx.fillStyle = "red";
-    ctx.font = (40 * scale) + "px Arial";
+    ctx.font = "40px Arial";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
-    ctx.font = (20 * scale) + "px Arial";
-    ctx.fillText("Tap to restart", canvas.width / 2, canvas.height / 2 + 40 * scale);
+    ctx.font = "20px Arial";
+    ctx.fillText("Tap to restart", canvas.width / 2, canvas.height / 2 + 40);
     ctx.textAlign = "left";
 }
 
 function restartGame() {
-    const scale = getScale();
-    birdY = 150 * scale;
+    birdY = 150;
     birdVelocity = 0;
     pipes = []; score = 0;
     gameOver = false;
