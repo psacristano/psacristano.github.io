@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ora X</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Ora X</h1>
+
+    <div id="gameBox">
+        <canvas id="gameCanvas" width="360" height="520"></canvas>
+
+        <div id="controls">
+            <div class="select-row">
+                <div>
+                    <label for="hour">Ora</label>
+                    <select id="hour"></select>
+                </div>
+
+                <div>
+                    <label for="minute">Minuti</label>
+                    <select id="minute"></select>
+                </div>
+            </div>
+
+            <button id="tryButton">Tenta</button>
+            <button id="restartButton">Rigioca</button>
+            <button id="copyButton">Copia risultato</button>
+        </div>
+
+        <p id="message">Indovina l'ora nascosta. Hai 3 tentativi.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
