@@ -4,12 +4,10 @@ const canvas = document.getElementById("clockCanvas");
 const ctx = canvas.getContext("2d");
 
 const confirmButton = document.getElementById("confirmButton");
-const nextButton = document.getElementById("nextButton");
 const clueEl = document.getElementById("clue");
 const messageEl = document.getElementById("message");
 const currentTimeEl = document.getElementById("currentTime");
 const roundLabelEl = document.getElementById("roundLabel");
-const scoresPanel = document.getElementById("scoresPanel");
 const scoresList = document.getElementById("scoresList");
 const averageScoreEl = document.getElementById("averageScore");
 const restartGameBtn = document.getElementById("restartGame");
@@ -161,7 +159,7 @@ let scores = [];
 let roundFinished = false;
 
 // stato tempo: totale minuti 0–1439
-let totalMinutes = 12 * 60; // default 12:00
+let totalMinutes = 6 * 60; // default 12:00
 
 let center = { x: canvas.width / 2, y: canvas.height / 2 };
 let radius = canvas.width * 0.4;
@@ -212,8 +210,9 @@ function randomInRange(min, max) {
 function setupRound(index) {
     roundFinished = false;
     confirmButton.disabled = false;
-    nextButton.disabled = true;
-    scoresPanel.classList.add("hidden");
+    confirmButton.textContent = "Conferma orario";
+    confirmButton.classList.remove("next-state");
+    confirmButton.classList.add("confirm-state");
 
     // Orario casuale 0–1439
     targetMinutes = Math.floor(Math.random() * 1440);
@@ -228,7 +227,7 @@ function setupRound(index) {
     messageEl.textContent = "Trascina le lancette e conferma il tuo orario.";
 
     // Reset orologio
-    totalMinutes = 12 * 60; // 12:00
+    totalMinutes = 6 * 60; // 12:00
     updateCurrentTimeLabel();
     drawClock();
 
@@ -307,14 +306,15 @@ function drawClockFace() {
 }
 
 function drawHands() {
-    const h = Math.floor(totalMinutes / 60);
+    const h = Math.floor(totalMinutes / 60) % 12;
     const m = totalMinutes % 60;
 
     // minuti: 60 min = 360°
     const minuteAngle = (m * 6 - 90) * Math.PI / 180;
 
     // ore: 24h = 360° → 1h = 15° → totalMinutes/4 gradi
-    const hourAngle = (totalMinutes / 4 - 90) * Math.PI / 180;
+    const hourAngle = ((h * 30) + m * 0.5 - 90) * Math.PI / 180;
+
 
     ctx.save();
     ctx.beginPath();
@@ -375,12 +375,12 @@ function getHandFromPoint(x, y) {
     const dist = Math.sqrt(dx * dx + dy * dy);
     if (dist > radius + 20) return null;
 
-    const h = Math.floor(totalMinutes / 60);
+    const h = Math.floor(totalMinutes / 60) % 12;
     const m = totalMinutes % 60;
 
     const angle = getAngleFromPoint(x, y);
     const minuteAngle = (m * 6) % 360;
-    const hourAngle = (totalMinutes / 4) % 360;
+    const hourAngle = ((h * 30) + m * 0.5) % 360;
 
     const diffMinute = Math.min(
         Math.abs(angle - minuteAngle),
@@ -416,10 +416,8 @@ function setTimeFromAngle(hand, angle) {
 
         // scegli il delta minimo (continuità)
         let diff = newTotalFromAngle - totalMinutes;
-        if (diff > 720) diff -= 1440;
-        if (diff < -720) diff += 1440;
 
-        totalMinutes = (totalMinutes + diff + 1440) % 1440;
+        totalMinutes = (totalMinutes + diff + 1440) % (1440);
     }
 
     updateCurrentTimeLabel();
@@ -486,34 +484,52 @@ function updateCurrentTimeLabel() {
 }
 
 function handleConfirm() {
-    if (roundFinished) return;
+    // Se il round è già finito, il bottone ora serve per passare al round successivo
+    if (roundFinished) {
+        if (currentRound < TOTAL_ROUNDS - 1) {
+            currentRound++;
+            setupRound(currentRound);
+        }
+        return;
+    }
 
-    // Rimuovi eventuale badge precedente
-    const oldBadge = document.querySelector(".score-badge");
-    if (oldBadge) oldBadge.remove();
-
+    // Conferma orario
     const { score, dist } = computeScore();
     scores[currentRound] = score;
     roundFinished = true;
-    confirmButton.disabled = true;
-    nextButton.disabled = currentRound >= TOTAL_ROUNDS - 1;
 
-    // Crea badge punteggio
+    const targetStr = formatTime24(targetMinutes);
+
+    messageEl.innerHTML =
+        `Punteggio round: <b>${score.toFixed(1)} / 10</b><br>
+         Orario corretto: <b>${targetStr}</b><br>`;
+
+    // Badge punteggio
+    const oldBadge = document.querySelector(".score-badge");
+    if (oldBadge) oldBadge.remove();
+
     const badge = document.createElement("div");
     badge.className = "score-badge";
     badge.textContent = `Punteggio: ${score.toFixed(1)} / 10`;
     messageEl.insertAdjacentElement("afterend", badge);
 
-    const targetStr = formatTime24(targetMinutes);
-    messageEl.textContent =
-        `Punteggio round: ${score.toFixed(1)} / 10. ` +
-        `L'orario da indovinare era ${targetStr}. ` +
-        `Sei distante circa ${dist} minuti.`;
+    // Cambia funzione del bottone
+    if (currentRound < TOTAL_ROUNDS - 1) {
+        confirmButton.textContent = "Round successivo";
+        confirmButton.classList.remove("confirm-state");
+        confirmButton.classList.add("next-state");
+    } else {
+        confirmButton.textContent = "Mostra risultati";
+        confirmButton.classList.remove("confirm-state");
+        confirmButton.classList.add("next-state");
+    }
 
+    // Ultimo round → mostra overlay
     if (currentRound === TOTAL_ROUNDS - 1) {
-        showFinalScores();
+        confirmButton.onclick = showFinalScores;
     }
 }
+
 
 function showFinalScores() {
     // Crea overlay
@@ -529,7 +545,7 @@ function showFinalScores() {
     const list = document.createElement("ul");
     let sum = 0;
     scores.forEach((s, i) => {
-        const li = document.createElement("li");
+        const li = document.createElement("ul");
         li.textContent = `Round ${i + 1}: ${s.toFixed(1)} / 10`;
         list.appendChild(li);
         sum += s;
@@ -565,7 +581,6 @@ function handleNextRound() {
 function handleRestartGame() {
     scores = [];
     currentRound = 0;
-    scoresPanel.classList.add("hidden");
     setupRound(0);
 }
 
@@ -580,7 +595,6 @@ canvas.addEventListener("touchmove", onPointerMove, { passive: false });
 canvas.addEventListener("touchend", onPointerUp);
 
 confirmButton.addEventListener("click", handleConfirm);
-nextButton.addEventListener("click", handleNextRound);
 restartGameBtn.addEventListener("click", handleRestartGame);
 
 // ---------- Avvio ----------
