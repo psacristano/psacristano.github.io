@@ -1,4 +1,85 @@
-// Ora X – 5 Round, punteggio morbido, orologio 24h (una rotazione = 24 ore)
+// --- AUDIO ENGINE ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+// Utility per creare un suono breve
+function playSound({ type = "sine", freq = 440, duration = 0.1, volume = 0.4, attack = 0.005, release = 0.05 }) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + attack);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration - release);
+
+    osc.connect(gain).connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+}
+
+// --- SUONI DEL GIOCO ---
+
+// Tick meccanico leggero (40 ms)
+function sndTick() {
+    playSound({
+        type: "square",
+        freq: 1800,
+        duration: 0.04,
+        volume: 0.25,
+        attack: 0.001,
+        release: 0.02
+    });
+}
+
+// Click UI secco (60 ms)
+function sndClick() {
+    playSound({
+        type: "square",
+        freq: 3200,
+        duration: 0.06,
+        volume: 0.3,
+        attack: 0.001,
+        release: 0.03
+    });
+}
+
+// Success brillante (250 ms)
+function sndSuccess() {
+    playSound({
+        type: "triangle",
+        freq: 900,
+        duration: 0.25,
+        volume: 0.35,
+        attack: 0.005,
+        release: 0.05
+    });
+    setTimeout(() => playSound({
+        type: "triangle",
+        freq: 1200,
+        duration: 0.2,
+        volume: 0.3,
+        attack: 0.005,
+        release: 0.05
+    }), 80);
+}
+
+// Jingle finale breve (500 ms)
+function sndFinal() {
+    playSound({
+        type: "triangle",
+        freq: 600,
+        duration: 0.25,
+        volume: 0.35
+    });
+    setTimeout(() => playSound({
+        type: "triangle",
+        freq: 900,
+        duration: 0.25,
+        volume: 0.35
+    }), 200);
+}
 
 const canvas = document.getElementById("clockCanvas");
 const ctx = canvas.getContext("2d");
@@ -450,6 +531,17 @@ function onPointerMove(evt) {
     const { x, y } = pointerPos(evt);
     const angle = getAngleFromPoint(x, y);
     setTimeFromAngle(draggingHand, angle);
+
+    // suono di tick ogni volta che cambia il minuto o l'ora
+    if (draggingHand === "minute" || draggingHand === "hour") {
+        if (!onPointerMove.lastTick) onPointerMove.lastTick = 0;
+
+        const now = performance.now();
+        if (now - onPointerMove.lastTick > 60) { // 1 tick ogni 60ms
+            sndTick();
+            onPointerMove.lastTick = now;
+        }
+    }
 }
 
 function onPointerUp() {
@@ -459,6 +551,8 @@ function onPointerUp() {
 // ---------- Punteggio ----------
 
 function computeScore() {
+    sndSuccess();
+
     const dist = circularDistance(totalMinutes, targetMinutes);
 
     // Curva molto più generosa:
@@ -484,6 +578,8 @@ function updateCurrentTimeLabel() {
 }
 
 function handleConfirm() {
+    sndClick();
+
     // Se il round è già finito, il bottone ora serve per passare al round successivo
     if (roundFinished) {
         if (currentRound < TOTAL_ROUNDS - 1) {
@@ -568,6 +664,8 @@ function showFinalScores() {
     box.appendChild(restartBtn);
     overlay.appendChild(box);
     document.body.appendChild(overlay);
+
+    sndFinal();
 }
 
 
