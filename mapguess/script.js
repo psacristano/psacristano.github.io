@@ -145,6 +145,7 @@ const LOCATIONS = [
 
 const LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTR = '&copy; OpenStreetMap contributors &copy; CARTO';
+const SV_JITTER = 0.003; // ≈ 330 m — makes each round's coords unique
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
 let _audioCtx = null;
@@ -250,6 +251,13 @@ function shuffle(arr) {
   return a;
 }
 
+function jitterCoords(lat, lng) {
+  return {
+    lat: lat + (Math.random() * 2 - 1) * SV_JITTER,
+    lng: lng + (Math.random() * 2 - 1) * SV_JITTER,
+  };
+}
+
 function haversineKm(a, b) {
   const R = 6371;
   const dLat = (b.lat - a.lat) * Math.PI / 180;
@@ -298,7 +306,10 @@ function stopTimer() { clearInterval(timerInterval); }
 function startGame() {
   scores = [];
   currentRound = 0;
-  roundLocations = shuffle(LOCATIONS).slice(0, 5);
+  roundLocations = shuffle(LOCATIONS).slice(0, 5).map(loc => {
+    const { lat, lng } = jitterCoords(loc.lat, loc.lng);
+    return { ...loc, lat, lng };
+  });
   showScreen('screen-game');
   startRound();
 }

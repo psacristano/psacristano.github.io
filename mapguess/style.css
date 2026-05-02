@@ -143,6 +143,7 @@ html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui,
   #guess-panel.collapsed #guess-map-container { width: 0; height: 0; }
 }
 
+
 /* ── Result screen ───────────────────────────────── */
 #screen-result { display: none; }
 #screen-result.active { display: flex; }
