@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>MapGuess</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Start screen ───────────────────────────────── -->
+  <div id="screen-start" class="screen active">
+    <div class="start-card">
+      <h1>MapGuess</h1>
+      <p>You'll be dropped in a random location.<br>Explore, then pin your guess on the map.<br>5 rounds · 30 seconds each.</p>
+      <button id="btn-start" class="btn-primary">Start Game</button>
+    </div>
+  </div>
+
+  <!-- ── Game screen ────────────────────────────────── -->
+  <div id="screen-game" class="screen">
+    <iframe id="street-view-frame" allowfullscreen></iframe>
+
+    <div id="hud">
+      <div id="hud-round">Round <span id="round-num">1</span> / 5</div>
+      <div id="hud-timer"><span id="timer-val">30</span></div>
+    </div>
+
+    <div id="guess-panel" class="collapsed">
+      <div id="guess-map-container">
+        <div id="guess-map"></div>
+        <button id="btn-confirm" class="btn-primary" disabled>Confirm Guess</button>
+      </div>
+      <button id="btn-toggle-map" title="Toggle map">
+        <span id="toggle-icon">&#x1F5FA;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Result screen ──────────────────────────────── -->
+  <div id="screen-result" class="screen">
+    <div class="result-card">
+      <div id="result-map"></div>
+      <div class="result-info">
+        <div id="result-label"></div>
+        <div id="result-distance"></div>
+        <div id="result-score-display"></div>
+        <button id="btn-next" class="btn-primary">Next Round</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Final screen ───────────────────────────────── -->
+  <div id="screen-final" class="screen">
+    <div class="final-card">
+      <h2>Game Over</h2>
+      <div id="final-scores-list"></div>
+      <div id="final-avg"></div>
+      <button id="btn-play-again" class="btn-primary">Play Again</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

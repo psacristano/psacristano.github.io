@@ -1,0 +1,196 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --accent: #4ade80;
+  --accent-dark: #16a34a;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,.45);
+}
+
+html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+/* ── Screens ─────────────────────────────────────── */
+.screen { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; }
+.screen.active { display: flex; }
+
+/* ── Start ───────────────────────────────────────── */
+.start-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.start-card h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -.03em; color: var(--accent); margin-bottom: .6rem; }
+.start-card p { color: var(--muted); line-height: 1.6; font-size: .95rem; margin-bottom: 1.8rem; }
+
+/* ── Buttons ─────────────────────────────────────── */
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: #0f172a;
+  border: none;
+  border-radius: 8px;
+  padding: .75rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:hover { background: var(--accent-dark); color: #fff; }
+.btn-primary:active { transform: scale(.97); }
+.btn-primary:disabled { opacity: .4; cursor: default; transform: none; }
+
+/* ── Game screen ─────────────────────────────────── */
+#screen-game { display: none; }
+#screen-game.active { display: block; }
+
+#street-view-frame { position: fixed; inset: 0; width: 100%; height: 100%; border: none; }
+
+/* ── HUD ─────────────────────────────────────────── */
+#hud {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  background: var(--bg);
+  /* pointer-events: auto blocks the iframe's "View on Google Maps" link and
+     expand button that sit underneath this bar */
+  pointer-events: auto;
+  z-index: 20;
+}
+#hud-round { font-size: .85rem; font-weight: 600; color: var(--muted); }
+#hud-timer {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  min-width: 2.2rem;
+  text-align: center;
+  transition: color .2s;
+}
+#hud-timer.urgent { color: #f87171; }
+
+/* ── Guess panel ─────────────────────────────────── */
+#guess-panel {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .5rem;
+}
+
+#guess-map-container {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: width .25s ease, height .25s ease, opacity .25s ease;
+  width: 340px;
+  height: 280px;
+  opacity: 1;
+}
+
+#guess-panel.collapsed #guess-map-container {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#guess-map { flex: 1; min-height: 0; }
+
+#guess-map-container .btn-primary {
+  border-radius: 0;
+  width: 100%;
+  padding: .65rem 1rem;
+  font-size: .9rem;
+}
+
+#btn-toggle-map {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s;
+}
+#btn-toggle-map:hover { background: #2d3f56; }
+
+@media (max-width: 480px) {
+  #guess-map-container { width: calc(100vw - 2rem); height: 300px; }
+  #guess-panel.collapsed #guess-map-container { width: 0; height: 0; }
+}
+
+/* ── Result screen ───────────────────────────────── */
+#screen-result { display: none; }
+#screen-result.active { display: flex; }
+
+.result-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  width: min(600px, 96vw);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+#result-map {
+  width: 100%;
+  height: clamp(200px, 40vw, 320px);
+}
+
+.result-info {
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  align-items: center;
+  text-align: center;
+}
+
+#result-label { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+#result-distance { font-size: .9rem; color: var(--muted); }
+#result-score-display { font-size: 2rem; font-weight: 800; color: var(--accent); }
+.result-info .btn-primary { margin-top: .4rem; }
+
+/* ── Final screen ────────────────────────────────── */
+.final-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem 2rem;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.final-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1.2rem; }
+
+#final-scores-list { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.2rem; }
+.score-row { display: flex; justify-content: space-between; font-size: .9rem; color: var(--muted); padding: .3rem .5rem; border-radius: 6px; background: rgba(255,255,255,.04); }
+.score-row span:last-child { color: var(--accent); font-weight: 700; }
+
+#final-avg { font-size: 2.6rem; font-weight: 800; color: var(--accent); margin-bottom: 1.4rem; }
+#final-avg small { font-size: 1rem; color: var(--muted); font-weight: 400; display: block; }
