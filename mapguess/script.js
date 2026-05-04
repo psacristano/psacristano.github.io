@@ -258,6 +258,33 @@ function jitterCoords(lat, lng) {
   };
 }
 
+function fetchPanoId(lat, lng, radius = 200) {
+  return new Promise(resolve => {
+    const cb = '_sv' + Math.random().toString(36).slice(2);
+    const timer = setTimeout(() => { cleanup(); resolve(null); }, 5000);
+    const script = document.createElement('script');
+    function cleanup() { clearTimeout(timer); delete window[cb]; script.remove(); }
+    window[cb] = data => {
+      cleanup();
+      const info = data && data[1] && data[1][0] && data[1][0][1];
+      resolve((info && info[0] === 10 && info[1]) || null);
+    };
+    script.onerror = () => { cleanup(); resolve(null); };
+    script.src = `https://www.google.com/maps/api/js/GeoPhotoService.SingleImageSearch?pb=!1m5!1sapiv3!5sUS!11m2!1m1!1b0!2m4!1m2!3d${lat}!4d${lng}!2d${radius}&callback=${cb}`;
+    document.body.appendChild(script);
+  });
+}
+
+async function findValidLocation(baseLoc, maxTries = 10) {
+  for (let i = 0; i < maxTries; i++) {
+    const { lat, lng } = jitterCoords(baseLoc.lat, baseLoc.lng);
+    const panoid = await fetchPanoId(lat, lng);
+    if (panoid) return { ...baseLoc, lat, lng, panoid };
+  }
+  const panoid = await fetchPanoId(baseLoc.lat, baseLoc.lng, 1000);
+  return { ...baseLoc, panoid };
+}
+
 function haversineKm(a, b) {
   const R = 6371;
   const dLat = (b.lat - a.lat) * Math.PI / 180;
@@ -277,7 +304,8 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-function svURL(lat, lng) {
+function svURL(lat, lng, panoid) {
+  if (panoid) return `https://www.google.com/maps?q=&layer=c&panoid=${panoid}&cbp=11,0,0,0,0&output=svembed`;
   return `https://www.google.com/maps?q=&layer=c&cbll=${lat},${lng}&cbp=11,0,0,0,0&output=svembed`;
 }
 
@@ -303,12 +331,17 @@ function updateTimerDisplay() {
 function stopTimer() { clearInterval(timerInterval); }
 
 // ── Game flow ─────────────────────────────────────────────────────────────────
-function startGame() {
+async function startGame() {
+  ['btn-start', 'btn-play-again'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.disabled = true; el.textContent = 'Loading…'; }
+  });
   scores = [];
   currentRound = 0;
-  roundLocations = shuffle(LOCATIONS).slice(0, 5).map(loc => {
-    const { lat, lng } = jitterCoords(loc.lat, loc.lng);
-    return { ...loc, lat, lng };
+  roundLocations = await Promise.all(shuffle(LOCATIONS).slice(0, 5).map(findValidLocation));
+  ['btn-start', 'btn-play-again'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.disabled = false; el.textContent = id === 'btn-start' ? 'Start Game' : 'Play Again'; }
   });
   showScreen('screen-game');
   startRound();
@@ -321,8 +354,8 @@ function startRound() {
   document.getElementById('round-num').textContent = currentRound + 1;
   document.getElementById('btn-confirm').disabled = true;
 
-  const { lat, lng } = roundLocations[currentRound];
-  document.getElementById('street-view-frame').src = svURL(lat, lng);
+  const { lat, lng, panoid } = roundLocations[currentRound];
+  document.getElementById('street-view-frame').src = svURL(lat, lng, panoid);
 
   if (guessMarker) { guessMap.removeLayer(guessMarker); guessMarker = null; }
 
