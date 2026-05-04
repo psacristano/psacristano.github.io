@@ -2,7 +2,7 @@
 const GOAL = 1_000_000;
 const START = 1_000;
 const HOUSE = 0.03;
-const MULT_K = 0.00055; // multiplier = e^(K * elapsedMs)
+const MULT_K = 0.00035; // multiplier = e^(K * elapsedMs) - SLOWER growth for longer rounds
 const COUNTDOWN_SEC = 8;
 
 // ─── Performance optimizations ─────────────────────────────────
@@ -14,7 +14,7 @@ const MAX_PATH_POINTS = isMobile ? 50 : 100; // Limit path points on mobile
 const CANVAS_SCALE = isMobile ? Math.min(devicePixelRatio, 2) : devicePixelRatio; // Cap DPR on mobile
 
 // Countdown speed control
-let countdownSpeed = 1; // 1 = normal speed, 2 = double speed when bet is placed
+let countdownSpeed = 1; // 1 = normal speed, 4 = quadruple speed when bet is placed
 
 // Disable heavy animations on low-end devices (older Android/iOS, low core count)
 const isLowEndDevice = isMobile && (
@@ -379,7 +379,7 @@ function doPlaceBet() {
   
   // Speed up the countdown instead of starting flight immediately
   if (state === 'waiting' && cdTimer) {
-    countdownSpeed = 2; // Double the speed when bet is placed
+    countdownSpeed = 4; // Quadruple the speed when bet is placed (much more noticeable)
   }
 }
 
