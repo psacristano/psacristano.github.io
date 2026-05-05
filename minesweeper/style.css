@@ -26,7 +26,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 28px;
+  padding-bottom: 16px;
   overflow-x: hidden;
 }
 
@@ -87,7 +87,7 @@ header {
   width: 100%;
   background: var(--s1);
   border-bottom: 1px solid var(--border);
-  padding: 11px 16px;
+  padding: 10px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -163,10 +163,10 @@ header {
 .main {
   width: 100%;
   max-width: 460px;
-  padding: 14px 14px 0;
+  padding: 10px 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 8px;
 }
 
 /* ── Card ──────────────────────────────────────────────── */
@@ -174,7 +174,7 @@ header {
   background: var(--s1);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 13px;
+  padding: 10px;
 }
 
 /* ── Stats bar ─────────────────────────────────────────── */
@@ -188,12 +188,12 @@ header {
   background: var(--s2);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 9px 6px;
+  padding: 7px 5px;
   text-align: center;
 }
 
 .stat-lbl {
-  font-size: 0.58rem;
+  font-size: 0.57rem;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
@@ -201,9 +201,9 @@ header {
 }
 
 .stat-val {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  margin-top: 3px;
+  margin-top: 2px;
   line-height: 1;
   display: inline-block;
 }
@@ -220,12 +220,12 @@ header {
 }
 
 /* ── Grid ──────────────────────────────────────────────── */
-.grid-wrap { padding: 11px; }
+.grid-wrap { padding: 8px; }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 5px;
 }
 
 /* Shake on bomb hit */
@@ -344,7 +344,7 @@ header {
 }
 
 /* ── Controls ──────────────────────────────────────────── */
-.controls { display: flex; flex-direction: column; gap: 11px; }
+.controls { display: flex; flex-direction: column; gap: 8px; }
 
 .field-lbl {
   font-size: 0.66rem;
@@ -352,17 +352,18 @@ header {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .bet-row { display: flex; gap: 5px; }
 
 .bet-input {
   flex: 1;
+  min-width: 0;
   background: var(--s2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 11px;
+  padding: 8px 10px;
   color: var(--text);
   font-size: 1rem;
   font-weight: 700;
@@ -379,7 +380,7 @@ header {
   background: var(--s2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 9px;
+  padding: 8px 8px;
   color: var(--text);
   font-size: 0.78rem;
   font-weight: 700;
@@ -390,32 +391,35 @@ header {
 .chip:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
 .chip:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Mine selector */
-.mine-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
-}
-
-.mine-chip {
-  padding: 7px 4px;
+/* Mine counter */
+.mine-counter {
+  display: inline-flex;
+  align-items: center;
   background: var(--s2);
   border: 1px solid var(--border);
-  border-radius: 7px;
-  color: var(--muted);
-  font-size: 0.82rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.mine-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.2rem;
   font-weight: 700;
+  padding: 7px 16px;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.12s;
+  line-height: 1;
+  transition: background 0.12s, color 0.12s;
 }
-.mine-chip:hover:not(.active):not(:disabled) { border-color: var(--gold); color: var(--gold); }
-.mine-chip.active {
-  background: rgba(240,192,64,0.1);
-  border-color: var(--gold);
+.mine-btn:hover:not(:disabled) { background: var(--border); color: var(--gold); }
+.mine-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.mine-val {
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--gold);
+  min-width: 36px;
+  text-align: center;
 }
-.mine-chip:disabled { opacity: 0.35; cursor: not-allowed; }
 
 /* Multiplier info strip */
 .mult-strip {
@@ -430,7 +434,7 @@ header {
 /* ── Action button ─────────────────────────────────────── */
 .action-btn {
   width: 100%;
-  padding: 14px;
+  padding: 11px;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
@@ -470,13 +474,13 @@ header {
 }
 
 /* ── Goal bar ──────────────────────────────────────────── */
-.goal-card { padding: 11px 13px; }
+.goal-card { padding: 8px 11px; }
 .goal-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.7rem;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
 }
 .goal-lbl { font-weight: 600; color: var(--muted); }
 .goal-pct { font-weight: 800; color: var(--blue); }
@@ -563,7 +567,7 @@ header {
 @media (max-width: 360px) {
   .cell { font-size: 1.1rem; border-radius: 8px; }
   .grid { gap: 4px; }
-  .grid-wrap { padding: 8px; }
+  .grid-wrap { padding: 6px; }
 }
 @media (min-width: 480px) {
   .cell { border-radius: 12px; font-size: 1.6rem; }

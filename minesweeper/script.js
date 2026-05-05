@@ -441,7 +441,8 @@ function updateControls() {
   document.getElementById('btnHalf').disabled   = playing;
   document.getElementById('btnDouble').disabled = playing;
   document.getElementById('btnMax').disabled    = playing;
-  document.querySelectorAll('.mine-chip').forEach(c => { c.disabled = playing; });
+  document.getElementById('mineDecBtn').disabled = playing || numMines <= 1;
+  document.getElementById('mineIncBtn').disabled = playing || numMines >= 10;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -475,26 +476,17 @@ document.getElementById('betInput').addEventListener('input', function () {
 /* ════════════════════════════════════════════════════════
    Mine Selector
 ════════════════════════════════════════════════════════ */
-function buildMineSelector() {
-  const g = document.getElementById('mineGrid');
-  g.innerHTML = '';
-  for (let n = 1; n <= 10; n++) {
-    const btn = document.createElement('button');
-    btn.className   = 'mine-chip' + (n === numMines ? ' active' : '');
-    btn.textContent = n;
-    btn.onclick = () => selectMines(n, btn);
-    g.appendChild(btn);
-  }
-}
-
-function selectMines(n, btn) {
+function changeMines(delta) {
   if (gameState === 'playing') return;
+  const next = numMines + delta;
+  if (next < 1 || next > 10) return;
   sounds.tick();
-  numMines = n;
-  document.getElementById('mineLabel').textContent = n;
-  document.querySelectorAll('.mine-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sSafe').textContent = '0 / ' + (CELLS - n);
+  numMines = next;
+  document.getElementById('mineLabel').textContent = numMines;
+  document.getElementById('mineVal').textContent = numMines;
+  document.getElementById('sSafe').textContent = '0 / ' + (CELLS - numMines);
+  document.getElementById('mineDecBtn').disabled = numMines <= 1;
+  document.getElementById('mineIncBtn').disabled = numMines >= 10;
   updateBtn();
 }
 
@@ -593,5 +585,4 @@ function fmtPct(p) {
 ════════════════════════════════════════════════════════ */
 buildGrid(false);
 animateGridIn();
-buildMineSelector();
 updateUI();

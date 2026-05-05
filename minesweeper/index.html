@@ -54,7 +54,11 @@
 
     <div>
       <div class="field-lbl">Bombe 💣 — <span id="mineLabel">3</span></div>
-      <div class="mine-grid" id="mineGrid"></div>
+      <div class="mine-counter">
+        <button class="mine-btn" id="mineDecBtn" onclick="changeMines(-1)">−</button>
+        <span class="mine-val" id="mineVal">3</span>
+        <button class="mine-btn" id="mineIncBtn" onclick="changeMines(1)">+</button>
+      </div>
     </div>
 
     <div class="mult-strip hidden" id="multStrip">
