@@ -98,7 +98,7 @@ const SFX = {
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(220, t);
     osc.frequency.exponentialRampToValueAtTime(35, t + 0.55);
-    g.gain.setValueAtTime(0.45, t);
+    g.gain.setValueAtTime(0.10, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
     osc.connect(g); g.connect(ctx.destination);
     osc.start(t); osc.stop(t + 0.7);
